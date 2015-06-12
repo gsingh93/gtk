@@ -21,6 +21,12 @@ pub use glib_ffi::{
 //pub type GtkAllocation = GdkRectangle;
 
 #[repr(C)]
+pub struct GtkStyleContext;
+#[repr(C)]
+pub struct GtkStyleProvider;
+#[repr(C)]
+pub struct GtkCssProvider;
+#[repr(C)]
 pub struct GtkWidget;
 #[repr(C)]
 pub struct GtkWindow;
@@ -332,6 +338,8 @@ pub struct GtkTooltip;
 
 extern "C" {
 
+    pub fn gtk_style_context_add_provider(context: *mut GtkStyleContext, provider: *mut GtkCssProvider, priority: c_uint);
+
     //=========================================================================
     // Gtk Main Loop + events
     //=========================================================================
@@ -387,6 +395,31 @@ extern "C" {
     pub fn g_type_fundamental                  (type_id: GType) -> GType;
     pub fn g_type_ensure                       (_type: GType);
     pub fn g_type_get_type_registration_serial () -> c_uint;
+
+    //=========================================================================
+    // GtkCssProvider                                                    NOT OK
+    //=========================================================================
+
+    pub fn gtk_css_provider_new() -> *mut GtkCssProvider;
+    pub fn gtk_css_provider_get_default() -> *mut GtkCssProvider;
+    pub fn gtk_css_provider_get_named() -> *mut GtkCssProvider;
+    pub fn gtk_css_provider_load_from_data() -> gboolean;
+    pub fn gtk_css_provider_load_from_file() -> gboolean;
+    pub fn gtk_css_provider_load_from_path(provider: *mut GtkCssProvider,
+                                           path: *const c_char,
+                                           error: u32) -> gboolean;
+    pub fn gtk_css_provider_load_from_resource();
+    pub fn gtk_css_provider_to_string() -> *const c_char;
+    // TODO: Add arguments
+    //pub fn gtk_css_section_get_end_line() -> guint;
+    //pub fn gtk_css_section_get_end_position() -> guint;
+    //pub fn gtk_css_section_get_file() -> *const GFile;
+    //pub fn gtk_css_section_get_parent() -> *const GtkCssSection;
+    //pub fn gtk_css_section_get_section_type() -> *const GtkCssSectionType;
+    //pub fn gtk_css_section_get_start_line() -> guint;
+    //pub fn gtk_css_section_get_start_position() -> guint;
+    //pub fn gtk_css_section_ref() -> *mut GtkCssSection;
+    //pub fn gtk_css_section_unref();
 
     //=========================================================================
     // GtkWidget                                                         NOT OK
@@ -559,7 +592,7 @@ extern "C" {
     pub fn gtk_widget_get_opacity              (widget: *mut GtkWidget) -> c_double;
     pub fn gtk_widget_set_opacity              (widget: *mut GtkWidget, opacity: c_double);
     //pub fn gtk_widget_get_path                 (widget: *mut GtkWidget) -> *mut GtkWidgetPath;
-    //pub fn gtk_widget_get_style_context        (widget: *mut GtkWidget) -> *mut GtkStyleContext;
+    pub fn gtk_widget_get_style_context        (widget: *mut GtkWidget) -> *mut GtkStyleContext;
     pub fn gtk_widget_reset_style              (widget: *mut GtkWidget);
     //pub fn gtk_requisition_new                 () -> *mut GtkRequisition;
     //pub fn gtk_requisition_copy                (requisition: *const GtkRequisition) -> *mut GtkRequisition;

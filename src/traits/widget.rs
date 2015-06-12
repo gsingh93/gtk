@@ -635,6 +635,10 @@ pub trait WidgetTrait: ::FFIWidget + ::GObjectTrait {
         unsafe { ffi::gtk_widget_set_vexpand_set(self.unwrap_widget(), to_gboolean(expand)) }
     }
 
+    fn get_style_context(&self) -> *mut ffi::GtkStyleContext {
+        unsafe { ffi::gtk_widget_get_style_context(self.unwrap_widget()) }
+    }
+
     fn queue_compute_expand(&self) {
         unsafe { ffi::gtk_widget_queue_compute_expand(self.unwrap_widget()) }
     }
