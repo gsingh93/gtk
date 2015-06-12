@@ -116,3 +116,6 @@ impl ListStore {
 }
 
 impl_drop!(ListStore, GTK_LIST_STORE);
+
+impl_GObjectFunctions!(ListStore, GtkListStore);
+impl_TraitObject!(ListStore, GtkListStore);
